@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-ink-950 font-sans text-[13px] text-slate-200 antialiased;
+  }
+  :focus-visible {
+    outline: 1.5px solid #7aa7ff;
+    outline-offset: 1px;
+  }
+  input[type='range'] {
+    @apply h-4 cursor-pointer accent-[#7aa7ff];
+  }
+  input[type='checkbox'] {
+    @apply h-3.5 w-3.5 accent-[#7aa7ff];
+  }
+  input[type='number']::-webkit-inner-spin-button {
+    opacity: 0.4;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-ink-600;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      transition-duration: 0ms !important;
+      animation-duration: 0ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Superficies */
+  .panel {
+    @apply rounded-lg border border-ink-600 bg-ink-900;
+  }
+  .panel-head {
+    @apply flex h-9 items-center gap-2 border-b border-ink-600 px-3 text-xs font-medium text-slate-300;
+  }
+  .panel-body {
+    @apply p-3;
+  }
+  .divider-v {
+    @apply mx-0.5 h-4 w-px shrink-0 bg-ink-600;
+  }
+
+  /* Botones: 28 px de alto, texto 12 px */
+  .btn {
+    @apply inline-flex h-7 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-ink-600 bg-ink-800 px-2.5 text-xs font-medium text-slate-200 transition-colors hover:border-ink-500 hover:bg-ink-700 disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .btn-primary {
+    @apply border-transparent bg-slate-100 text-ink-950 hover:border-transparent hover:bg-white;
+  }
+  .btn-accent {
+    @apply border-transparent bg-[#7aa7ff] text-ink-950 hover:border-transparent hover:bg-[#9dbdff];
+  }
+  .btn-ghost {
+    @apply border-transparent bg-transparent text-slate-400 hover:border-transparent hover:bg-white/5 hover:text-slate-100;
+  }
+  .btn-danger {
+    @apply text-red-300 hover:border-red-400/40 hover:bg-red-500/10;
+  }
+  .btn-icon {
+    @apply w-7 px-0;
+  }
+  .btn[aria-pressed='true'],
+  .btn[aria-checked='true'] {
+    @apply border-[#7aa7ff80] bg-[#7aa7ff1f] text-[#9dbdff];
+  }
+
+  /* Control segmentado */
+  .seg {
+    @apply inline-flex h-7 items-center gap-0.5 rounded-md border border-ink-600 bg-ink-950 p-0.5;
+  }
+  .seg > button {
+    @apply inline-flex h-full items-center justify-center gap-1.5 rounded px-2 text-xs text-slate-400 transition-colors hover:text-slate-100;
+  }
+  .seg > button[aria-pressed='true'],
+  .seg > button[aria-checked='true'],
+  .seg > button[aria-selected='true'] {
+    @apply bg-ink-700 text-white;
+  }
+
+  /* Pestañas subrayadas */
+  .tab {
+    @apply -mb-px inline-flex h-9 items-center gap-1.5 border-b-2 border-transparent px-2.5 text-xs font-medium text-slate-400 transition-colors hover:text-slate-100;
+  }
+  .tab[aria-selected='true'] {
+    @apply border-[#7aa7ff] text-white;
+  }
+
+  /* Campos */
+  .field-label {
+    @apply mb-1 block text-2xs font-medium text-slate-400;
+  }
+  .input {
+    @apply h-7 w-full rounded-md border border-ink-600 bg-ink-950 px-2 text-xs text-slate-100 transition-colors placeholder:text-slate-600 hover:border-ink-500 focus:border-[#7aa7ff99] focus:outline-none;
+  }
+  textarea.input {
+    @apply h-auto py-1.5;
+  }
+  .swatch {
+    @apply h-7 w-7 cursor-pointer rounded-md border border-ink-600 bg-ink-950 p-0.5;
+  }
+  .swatch::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+  .swatch::-webkit-color-swatch {
+    border: 0;
+    border-radius: 4px;
+  }
+  .kbd-hint {
+    @apply text-2xs text-slate-500;
+  }
+}
+
+/* Escalado sin suavizado: conserva los píxeles lógicos del display. */
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* El lienzo recibe punteros sin que el navegador haga scroll o zoom. */
+.draw-surface {
+  touch-action: none;
+  cursor: crosshair;
+}
+
+/* Escenario del lienzo: retícula de puntos como una placa de prototipos. */
+.bench {
+  background-color: #101215;
+  background-image: radial-gradient(circle at 1px 1px, #2a2f37 1px, transparent 0);
+  background-size: 16px 16px;
+}
+
+/* Diálogos: entrada breve que muestra qué se abrió. */
+dialog[open] {
+  animation: dialog-in 140ms ease-out;
+}
+dialog::backdrop {
+  background: rgb(8 9 11 / 0.72);
+  backdrop-filter: blur(2px);
+}
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.99);
+  }
+}
+
+/* Avisos flotantes */
+.toast-in {
+  animation: toast-in 160ms ease-out;
+}
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* Resaltado de C en la pestaña Código (clases sin dígitos: la regla de números no las altera). */
+.tk-com { color: #6b7280; }
+.tk-num { color: #fcd34d; }
+.tk-pp { color: #f0abfc; }
+.tk-kw { color: #7aa7ff; }
+.tk-str { color: #6ee7b7; }
